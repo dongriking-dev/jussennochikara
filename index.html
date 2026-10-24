@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Splash</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+    img {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <img
+    src="https://lh3.googleusercontent.com/d/1Gaz-hW48_wfJ5wjfm7RPjx0_KC8N0w1U=w1000"
+    alt=""
+    onerror="this.style.display='none'"
+  >
+  <script>
+    // 画像読み込み完了後に0.5秒表示 → 閉じる or about:blank
+    const img = document.querySelector('img');
+
+    function startTimer() {
+      setTimeout(() => {
+        // 1) 閉じるを試みる
+        try { window.close(); } catch (e) {}
+        // 2) 閉じられなければ about:blank へ
+        setTimeout(() => {
+          if (!window.closed) location.replace('about:blank');
+        }, 200);
+      }, 500);
+    }
+
+    if (img.complete && img.naturalWidth > 0) {
+      startTimer();
+    } else {
+      img.addEventListener('load', startTimer);
+      // 読み込み失敗時も0.5秒後に遷移（画像なしで）
+      img.addEventListener('error', startTimer);
+    }
+  </script>
+</body>
+</html>
