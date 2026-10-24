@@ -1,55 +1,628 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>Splash</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      background: #000;
-    }
-    iframe {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      border: 0;
-      display: block;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google スプレッドシート</title>
+
+<!-- タブのアイコン（指定されたデータを埋め込み） -->
+<link id="faviconLink" rel="icon" href="data:image/png;base64,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">
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Google Sans', Roboto, Arial, 'Hiragino Sans', 'Yu Gothic', Meiryo, sans-serif;
+    background: #f8f9fa;
+    color: #202124;
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    overflow-y: scroll;
+  }
+  button { font-family: inherit; }
+
+  /* ===== ヘッダー ===== */
+  .header {
+    display: flex;
+    align-items: center;
+    padding: 8px 16px;
+    background: #f8f9fa;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .menu-btn {
+    width: 48px; height: 48px;
+    border: none; background: none; border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .menu-btn:hover { background: #e8eaed; }
+  .menu-btn svg { fill: #5f6368; }
+
+  .logo-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  .logo-icon { width: 40px; height: 40px; }
+  .logo-text {
+    font-size: 22px;
+    color: #5f6368;
+    letter-spacing: -0.5px;
+    font-weight: 400;
+  }
+
+  .search-bar {
+    flex: 1;
+    max-width: 700px;
+    height: 48px;
+    background: #e8eaed;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    margin-left: 24px;
+    transition: background 0.1s, box-shadow 0.1s;
+  }
+  .search-bar:focus-within {
+    background: #fff;
+    box-shadow: 0 1px 1px 0 rgba(65,69,73,.3), 0 1px 3px 1px rgba(65,69,73,.15);
+  }
+  .search-bar svg { fill: #5f6368; margin-right: 12px; }
+  .search-bar input {
+    flex: 1;
+    border: none; background: none; outline: none;
+    font-size: 16px;
+    color: #202124;
+  }
+  .search-bar input::placeholder { color: #5f6368; }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-left: auto;
+  }
+  .btn-upgrade {
+    background: #e8f0fe;
+    color: #1a73e8;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    height: 40px;
+  }
+  .btn-upgrade:hover { background: #d2e3fc; }
+  
+  .icon-btn {
+    width: 40px; height: 40px;
+    border: none; background: none; border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .icon-btn:hover { background: #e8eaed; }
+  .icon-btn svg { fill: #5f6368; }
+
+  .avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: #202124;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid #dadce0;
+    margin-left: 4px;
+  }
+
+  /* ===== メインコンテンツ ===== */
+  .main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .top-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #202124;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title svg { fill: #5f6368; cursor: pointer; }
+
+  .carousel {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    scrollbar-width: thin;
+  }
+  .carousel::-webkit-scrollbar { height: 6px; }
+  .carousel::-webkit-scrollbar-thumb { background: #dadce0; border-radius: 3px; }
+
+  .card {
+    flex: 0 0 180px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .card-img {
+    width: 100%;
+    height: 120px;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    background: #fff;
+    overflow: hidden;
+    transition: box-shadow 0.15s;
+    position: relative;
+  }
+  .card:hover .card-img {
+    box-shadow: 0 1px 3px 0 rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15);
+  }
+  .card-title {
+    font-size: 14px;
+    color: #3c4043;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 4px;
+  }
+
+  .blank-cross {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mock-tpl {
+    width: 100%; height: 100%;
+    background: #fff;
+    display: flex; flex-direction: column;
+    padding: 12px;
+    font-size: 6px;
+  }
+  .mock-header {
+    height: 16px;
+    width: 100%;
+    border-radius: 2px;
+    margin-bottom: 8px;
+    display: flex; align-items: center; padding: 0 4px;
+    color: #fff; font-weight: bold;
+  }
+  .mock-line {
+    height: 4px; background: #e8eaed; border-radius: 1px; margin-bottom: 4px;
+  }
+
+  /* ===== ファイルリスト ===== */
+  .list-section {
+    background: #fff;
+    min-height: 500px;
+    padding: 16px 24px;
+  }
+  .list-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 100px;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #5f6368;
+    border-bottom: 1px solid #dadce0;
+    align-items: center;
+  }
+  .list-header .sortable {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+  }
+  .list-header .sortable:hover { background: #f1f3f4; border-radius: 4px; }
+  .list-header svg { fill: #5f6368; }
+  .list-actions { display: flex; gap: 8px; justify-content: flex-end; }
+  .list-actions .icon-btn { width: 32px; height: 32px; }
+
+  .date-group {
+    padding: 16px 16px 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #202124;
+  }
+
+  .file-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 100px;
+    align-items: center;
+    padding: 8px 16px;
+    border-bottom: 1px solid #f1f3f4;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .file-row:hover { background: #f8f9fa; }
+  
+  .file-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #202124;
+  }
+  .file-icon { width: 20px; height: 20px; flex: 0 0 auto; }
+  .file-shared { fill: #5f6368; width: 16px; height: 16px; margin-left: 4px; }
+
+  .file-owner, .file-date {
+    font-size: 13px;
+    color: #5f6368;
+  }
+
+  .row-menu {
+    border: none; background: none;
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; margin-left: auto;
+  }
+  .row-menu:hover { background: #e8eaed; }
+  .row-menu svg { fill: #5f6368; }
+
+  /* ===== モーダル ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(32, 33, 36, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease-in-out;
+  }
+  .modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  .google-modal {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 24px 38px 3px rgba(0,0,0,0.14), 0 9px 46px 8px rgba(0,0,0,0.12), 0 11px 15px -7px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 480px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    transform: scale(0.95);
+    transition: transform 0.15s ease-in-out;
+  }
+  .modal-overlay.show .google-modal {
+    transform: scale(1);
+  }
+  
+  .modal-title {
+    font-size: 22px;
+    font-weight: 400;
+    color: #202124;
+    margin-bottom: 16px;
+    line-height: 1.3;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+  }
+  
+  .modal-content {
+    font-size: 14px;
+    color: #3c4043;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  
+  .modal-content a {
+    color: #1a73e8;
+    text-decoration: none;
+  }
+  .modal-content a:hover {
+    text-decoration: underline;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  
+  .btn {
+    height: 36px;
+    padding: 0 24px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.1s, box-shadow 0.1s;
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
+    letter-spacing: 0.25px;
+  }
+  
+  .btn-text {
+    background: transparent;
+    color: #1a73e8;
+    border: 1px solid #dadce0;
+  }
+  .btn-text:hover {
+    background: #f8fbff;
+  }
+  .btn-text:active {
+    background: #e8f0fe;
+  }
+
+  .btn-primary {
+    background: #1a73e8;
+    color: #fff;
+    border: 1px solid transparent;
+  }
+  .btn-primary:hover {
+    background: #1b66c9;
+    box-shadow: 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+  }
+  .btn-primary:active {
+    background: #185abc;
+  }
+
+</style>
 </head>
 <body>
-  <iframe
-    id="video"
-    src="https://drive.google.com/file/d/1woXgshGP_7fMKMSRUwEucURgAK5UayWu/preview"
-    allow="autoplay"
-    allowfullscreen
-  ></iframe>
 
-  <script>
-    // 動画を表示してから0.5秒後に閉じる / about:blank へ
-    // ※ iframe内の動画再生イベントはクロスオリジンのため取得不可。
-    //   そのため「読み込み開始（またはiframeのload）から0.5秒」で計測します。
-    function goBlank() {
-      // 1) 閉じるを試みる
-      try { window.close(); } catch (e) {}
-      // 2) 閉じられなければ about:blank へ
-      setTimeout(() => {
-        if (!window.closed) location.replace('about:blank');
-      }, 200);
+<!-- ===== ヘッダー ===== -->
+<div class="header">
+  <button class="menu-btn">
+    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+  </button>
+  
+  <div class="logo-area">
+    <svg class="logo-icon" viewBox="0 0 48 48">
+      <defs>
+        <linearGradient id="sheetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#0F9D58" />
+          <stop offset="40%" stop-color="#34A853" />
+          <stop offset="100%" stop-color="#8AB4F8" />
+        </linearGradient>
+      </defs>
+      <path d="M 12 12 L 40 12 A 6 6 0 0 1 46 18 L 46 36 A 6 6 0 0 1 40 42 L 12 42 Z" fill="#0F9D58" />
+      <path d="M 4 6 L 32 6 A 8 8 0 0 1 40 14 L 40 34 A 8 8 0 0 1 32 42 L 4 42 A 8 8 0 0 1 -4 34 L -4 14 A 8 8 0 0 1 4 6 Z" fill="url(#sheetGrad)" />
+      <g stroke="#FFFFFF" stroke-width="5" stroke-linecap="round">
+        <line x1="10" y1="24" x2="26" y2="24" />
+        <line x1="18" y1="16" x2="18" y2="32" />
+      </g>
+    </svg>
+    <span class="logo-text">スプレッドシート</span>
+  </div>
+
+  <div class="search-bar">
+    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+    <input type="text" placeholder="検索">
+  </div>
+
+  <div class="header-right">
+    <button class="btn-upgrade">アップグレード</button>
+    <button class="icon-btn">
+      <svg width="24" height="24" viewBox="0 0 24 24"><path d="M6,10c-1.1,0-2,0.9-2,2s0.9,2,2,2s2-0.9,2-2S7.1,10,6,10z M18,10c-1.1,0-2,0.9-2,2s0.9,2,2,2s2-0.9,2-2S19.1,10,18,10z M12,10c-1.1,0-2,0.9-2,2s0.9,2,2,2s2-0.9,2-2S13.1,10,12,10z"/></svg>
+    </button>
+    <div class="avatar" title="アカウント">私</div>
+  </div>
+</div>
+
+<!-- ===== メインコンテンツ ===== -->
+<div class="main-container">
+  <div class="top-section">
+    <div class="section-title">新しいスプレッドシートを作成</div>
+    <div class="section-title">
+      テンプレート ギャラリー
+      <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 5.83L15.17 9l1.41-1.41L12 3 7.41 7.59 8.83 9 12 5.83zm0 12.34L8.83 15l-1.41 1.41L12 21l4.59-4.59L15.17 15 12 18.17z"/></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+    </div>
+  </div>
+
+  <div class="carousel">
+    <div class="card" onclick="openSheet()">
+      <div class="card-img">
+        <div class="blank-cross">
+          <svg width="50" height="50" viewBox="0 0 24 24">
+            <path fill="#0F9D58" d="M3 3h8v8H3z"/>
+            <path fill="#F4B400" d="M13 3h8v8h-8z"/>
+            <path fill="#4285F4" d="M3 13h8v8H3z"/>
+            <path fill="#DB4437" d="M13 13h8v8h-8z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="card-title">空白のスプレッドシート</div>
+    </div>
+
+    <div class="card" onclick="openSheet('ToDo')">
+      <div class="card-img">
+        <div class="mock-tpl">
+          <div class="mock-header" style="background:#0F9D58">ToDo</div>
+          <div class="mock-line" style="width:80%"></div>
+          <div class="mock-line" style="width:90%"></div>
+          <div class="mock-line" style="width:60%"></div>
+          <div class="mock-line" style="width:75%"></div>
+        </div>
+      </div>
+      <div class="card-title">ToDo</div>
+    </div>
+
+    <div class="card" onclick="openSheet('年間予算')">
+      <div class="card-img">
+        <div class="mock-tpl">
+          <div class="mock-header" style="background:#DB4437">年間予算管理表</div>
+          <div class="mock-line" style="width:100%"></div>
+          <div class="mock-line" style="width:100%"></div>
+          <div class="mock-line" style="width:100%"></div>
+          <div class="mock-line" style="width:100%"></div>
+        </div>
+      </div>
+      <div class="card-title">年間予算</div>
+    </div>
+
+    <div class="card" onclick="openSheet('月間予算')">
+      <div class="card-img">
+        <div class="mock-tpl">
+          <div class="mock-header" style="background:#1a73e8">月間予算</div>
+          <div style="display:flex; gap:4px; margin-bottom:4px;">
+            <div style="flex:1; height:20px; background:#f1f3f4;"></div>
+            <div style="flex:1; height:20px; background:#f1f3f4;"></div>
+          </div>
+          <div class="mock-line" style="width:100%"></div>
+          <div class="mock-line" style="width:100%"></div>
+        </div>
+      </div>
+      <div class="card-title">月間予算</div>
+    </div>
+
+    <div class="card" onclick="openSheet('Google Finance 投資...')">
+      <div class="card-img">
+        <div class="mock-tpl">
+          <div style="font-size:8px; font-weight:bold; color:#202124; margin-bottom:4px;">Alphabet Inc Class C</div>
+          <div class="mock-line" style="width:40%; background:#1a73e8; height:6px;"></div>
+          <div style="margin-top:auto; height:40px; border-bottom:1px solid #dadce0; border-left:1px solid #dadce0; position:relative;">
+             <svg width="100%" height="100%" viewBox="0 0 100 40" preserveAspectRatio="none">
+               <path d="M0,35 Q20,20 40,25 T100,10" fill="none" stroke="#1a73e8" stroke-width="1.5"/>
+             </svg>
+          </div>
+        </div>
+      </div>
+      <div class="card-title">Google Finance 投資...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 下部：ファイルリスト ===== -->
+<div class="list-section">
+  <div class="list-header">
+    <div class="sortable">オーナー指定なし <svg width="18" height="18" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg></div>
+    <div class="sortable">最終閲覧（自分）</div>
+    <div></div>
+    <div class="list-actions">
+      <button class="icon-btn" title="リスト表示">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/></svg>
+      </button>
+      <button class="icon-btn" title="並べ替え">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zM3 6v2h18V6H3zm0 7h12v-2H3v2z"/></svg>
+      </button>
+      <button class="icon-btn" title="フォルダ">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="date-group">昨日</div>
+  <div class="file-row" onclick="openSheet('無題のスプレッドシート')">
+    <div class="file-name-cell">
+      <svg class="file-icon" viewBox="0 0 24 24"><path fill="#0F9D58" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path fill="#8CE0A8" d="M14 2v6h6"/><path fill="#FFF" d="M8 13h8v1.5H8zm0 3h8v1.5H8zm0-6h4v1.5H8z"/></svg>
+      <span>無題のスプレッドシート</span>
+      <svg class="file-shared" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+    </div>
+    <div class="file-owner">自分</div>
+    <div class="file-date">2026/10/23</div>
+    <button class="row-menu">
+      <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+    </button>
+  </div>
+
+  <div class="date-group">過去 30 日</div>
+  <div class="file-row" onclick="openSheet('無題のスプレッドシート')">
+    <div class="file-name-cell">
+      <svg class="file-icon" viewBox="0 0 24 24"><path fill="#0F9D58" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path fill="#8CE0A8" d="M14 2v6h6"/><path fill="#FFF" d="M8 13h8v1.5H8zm0 3h8v1.5H8zm0-6h4v1.5H8z"/></svg>
+      <span>無題のスプレッドシート</span>
+      <svg class="file-shared" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+    </div>
+    <div class="file-owner">自分</div>
+    <div class="file-date">2026/10/06</div>
+    <button class="row-menu">
+      <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+    </button>
+  </div>
+
+  <div class="date-group">それ以前</div>
+  <div class="file-row" onclick="openSheet('無題のスプレッドシート')">
+    <div class="file-name-cell">
+      <svg class="file-icon" viewBox="0 0 24 24"><path fill="#0F9D58" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path fill="#8CE0A8" d="M14 2v6h6"/><path fill="#FFF" d="M8 13h8v1.5H8zm0 3h8v1.5H8zm0-6h4v1.5H8z"/></svg>
+      <span>無題のスプレッドシート</span>
+    </div>
+    <div class="file-owner">自分</div>
+    <div class="file-date">2026/09/22</div>
+    <button class="row-menu">
+      <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ===== ゴミ箱に移動モーダル ===== -->
+<div class="modal-overlay" id="trashModal">
+  <div class="google-modal">
+    <div class="modal-title">スプレッドシートのデータを削除しますか？</div>
+    <div class="modal-content">
+      スプレッドシートを削除した場合30日間アカウントにログインできなくなります。<br><br>
+      データ削除<a href="#" onclick="event.preventDefault();">詳細</a>
+    </div>
+    <div class="modal-actions">
+      <!-- キャンセルもサイトへ飛ぶように変更 -->
+      <button class="btn btn-text" onclick="goToSite()">キャンセル</button>
+      <button class="btn btn-primary" onclick="goToSite()">データ削除</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 1秒後にモーダルを表示
+  setTimeout(() => {
+    document.getElementById('trashModal').classList.add('show');
+  }, 1000);
+
+  // どちらのボタンを押しても指定URLへ飛ぶ
+  function goToSite() {
+    const modal = document.querySelector('.google-modal');
+    if (modal) {
+      modal.style.opacity = '0.5';
+      modal.style.transform = 'scale(0.98)';
     }
+    document.getElementById('trashModal').style.pointerEvents = 'none';
+    
+    setTimeout(() => {
+      window.location.href = "https://drive.google.com/file/d/1woXgshGP_7fMKMSRUwEucURgAK5UayWu/view?usp=sharing";
+    }, 300);
+  }
 
-    const frame = document.getElementById('video');
-    const timer = () => setTimeout(goBlank, 500);
-
-    // iframeのload後に計測開始（画像版と同じ挙動に合わせる）
-    frame.addEventListener('load', timer, { once: true });
-
-    // 念のためのフォールバック（loadが発火しない環境向け）
-    setTimeout(timer, 3000);
-  </script>
+  // スプレッドシートを開く処理（既存のもの）
+  function openSheet(name) {
+    const title = name || '無題のスプレッドシート';
+    localStorage.setItem('sheetTitle', title);
+    
+    if (location.protocol !== 'file:') {
+      location.href = 'sheet.html';
+    } else {
+      const toast = document.createElement('div');
+      toast.style.cssText = 'position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#323232;color:#fff;padding:14px 24px;border-radius:4px;font-size:14px;box-shadow:0 3px 5px -1px rgba(0,0,0,.2),0 6px 10px 0 rgba(0,0,0,.14);z-index:1000;';
+      toast.textContent = '「' + title + '」を開きました';
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2000);
+    }
+  }
+</script>
 </body>
 </html>
